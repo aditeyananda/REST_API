@@ -1,4 +1,4 @@
-package com.taskmanager
+package com.taskmanager.exceptions
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ResponseStatus

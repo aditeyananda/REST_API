@@ -1,4 +1,4 @@
-package com.taskmanager
+package com.taskmanager.ddb.models
 
 data class User(
     val id: Long,
