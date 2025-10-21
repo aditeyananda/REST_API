@@ -13,48 +13,36 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/users")
-class UserController() {
-    private val users = mutableListOf<User>()
-    private var nextId = 1L
+class UserController(private val userService: UserService) {
 
     @GetMapping
     fun getAllUsers(): List<User> {
-        return users
+        return userService.getAllUsers()
     }
 
     @GetMapping("/{id}")
     fun getUserById(@PathVariable id: Long): User {
-        return users.find { it.id == id } ?: throw UserNotFoundException("User not found for id: $id")
+        return userService.getUserById(id)
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("email/{email}")
     fun getUserByEmail(@PathVariable email: String): User {
-        return users.find {it.email == email } ?: throw UserNotFoundException("User not found for email: $email")
+        return userService.getUserByEmail(email)
     }
 
     @PostMapping
     fun createUser(@RequestBody request: CreateUserRequest) {
-        val user = User(id = nextId++, name = request.name, email = request.email)
-        users.add(user)
+        userService.createUser(name = request.name, email = request.email)
     }
 
     @PutMapping("/{id}")
     fun updateUser(@PathVariable id: Long, @RequestBody request: CreateUserRequest ) {
-        val existingUser = users.find { it.id == id } ?: throw UserNotFoundException("User not found for id: $id")
-
-        val updatedUser = existingUser.copy(name = request.name, email = request.email)
-
-        users.remove(existingUser)
-        users.add(updatedUser)
+        userService.updateUser(id = id, name = request.name, email = request.email)
     }
 
     @DeleteMapping("/{id}")
     fun deleteUser(@PathVariable id: Long): Map<String, String>{
-
-        val removed = users.removeIf { it.id == id }
-        if (!removed) {
-            throw UserNotFoundException("User not found with id: $id")
-        }
+        userService.deleteUser(id)
         return mapOf("message" to "User deleted successfully")
     }
 

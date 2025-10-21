@@ -1,7 +1,20 @@
 package com.taskmanager.ddb.models
 
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.Table
+
+@Entity
+@Table(name = "users")
 data class User(
-    val id: Long,
-    val name: String,
-    val email: String
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null,
+    @Column(nullable = false)
+    val name: String = "",
+    @Column(unique = true, nullable = false)
+    val email: String = ""
 )
