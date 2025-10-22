@@ -1,4 +1,4 @@
-package com.taskmanager
+package com.taskmanager.services
 
 import com.taskmanager.ddb.dao.UserRepository
 import com.taskmanager.ddb.models.User
@@ -14,7 +14,7 @@ class UserService (private val userRepository: UserRepository) {
     }
 
     fun getUserById(id: Long): User {
-        return userRepository.findById(id).orElseThrow {UserNotFoundException("User not found with id: $id")}
+        return userRepository.findById(id).orElseThrow { UserNotFoundException("User not found with id: $id") }
     }
 
     fun getUserByEmail(email: String): User {
